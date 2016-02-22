@@ -5,3 +5,5 @@ C:\Users\Janindu\Documents\cryptor\obj\Debug\Encrypt_a_string.Properties.Resourc
 C:\Users\Janindu\Documents\cryptor\obj\Debug\Encrypt a string.csproj.GenerateResource.Cache
 C:\Users\Janindu\Documents\cryptor\obj\Debug\Encrypt a string.exe
 C:\Users\Janindu\Documents\cryptor\obj\Debug\Encrypt a string.pdb
+C:\Users\Janindu\Documents\cryptor\Source\obj\Debug\Encrypt a string.exe
+C:\Users\Janindu\Documents\cryptor\Source\obj\Debug\Encrypt a string.pdb
