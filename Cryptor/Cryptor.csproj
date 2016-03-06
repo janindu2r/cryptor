@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CryptoEngine.cs" />
-    <Compile Include="EncryptEngine.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
