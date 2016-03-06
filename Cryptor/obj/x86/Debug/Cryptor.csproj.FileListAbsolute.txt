@@ -1,7 +1,0 @@
-C:\Users\Janindu\Documents\cryptor\Cryptor\bin\Debug\Cryptor.exe
-C:\Users\Janindu\Documents\cryptor\Cryptor\bin\Debug\Cryptor.pdb
-C:\Users\Janindu\Documents\cryptor\Cryptor\obj\x86\Debug\Cryptor.Main.resources
-C:\Users\Janindu\Documents\cryptor\Cryptor\obj\x86\Debug\Cryptor.Properties.Resources.resources
-C:\Users\Janindu\Documents\cryptor\Cryptor\obj\x86\Debug\Cryptor.csproj.GenerateResource.Cache
-C:\Users\Janindu\Documents\cryptor\Cryptor\obj\x86\Debug\Cryptor.exe
-C:\Users\Janindu\Documents\cryptor\Cryptor\obj\x86\Debug\Cryptor.pdb
