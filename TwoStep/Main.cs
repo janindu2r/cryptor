@@ -13,7 +13,7 @@ using System.Windows.Forms;
 namespace Two_Step_File_Protector
 {
 
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         private class UsbDrive 
         {
@@ -39,7 +39,7 @@ namespace Two_Step_File_Protector
         string decryptedFileName;
         //System.Management.ManagementClass USBClass = new ManagementClass("Win32_DiskDrive");
 
-        public Form1()
+        public Main()
         {
             USBCollection = new ManagementObjectSearcher("select * from Win32_DiskDrive where InterfaceType='USB'").Get();
             InitializeComponent();
