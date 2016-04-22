@@ -1,0 +1,30 @@
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\bin\Debug\Two Step File Protector.exe.config
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\bin\Debug\Two Step File Protector.exe
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\bin\Debug\Two Step File Protector.pdb
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.csprojResolveAssemblyReference.cache
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Form1.resources
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Properties.Resources.resources
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.csproj.GenerateResource.Cache
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.exe
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.pdb
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\bin\Debug\Two Step File Protector.exe.manifest
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\bin\Debug\Two Step File Protector.application
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.TrustInfo.xml
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.exe.manifest
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two Step File Protector.application
+C:\Users\lahir\OneDrive\Janindu Project\Two Step File Protector\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Form2.resources
+D:\dev\cryptor\TwoStep\bin\Debug\Two Step File Protector.exe.config
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.exe
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.pdb
+D:\dev\cryptor\TwoStep\bin\Debug\Two Step File Protector.exe.manifest
+D:\dev\cryptor\TwoStep\bin\Debug\Two Step File Protector.application
+D:\dev\cryptor\TwoStep\bin\Debug\Two Step File Protector.exe
+D:\dev\cryptor\TwoStep\bin\Debug\Two Step File Protector.pdb
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.csprojResolveAssemblyReference.cache
+D:\dev\cryptor\TwoStep\obj\Debug\Two_Step_File_Protector.Form2.resources
+D:\dev\cryptor\TwoStep\obj\Debug\Two_Step_File_Protector.Properties.Resources.resources
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.csproj.GenerateResource.Cache
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.TrustInfo.xml
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.exe.manifest
+D:\dev\cryptor\TwoStep\obj\Debug\Two Step File Protector.application
+D:\dev\cryptor\TwoStep\obj\Debug\Two_Step_File_Protector.Main.resources

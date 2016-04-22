@@ -1,0 +1,15 @@
+D:\dev\cryptor\Cryptor\Two Step File Protector\bin\Debug\Two Step File Protector.exe.config
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.exe
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.pdb
+D:\dev\cryptor\Cryptor\Two Step File Protector\bin\Debug\Two Step File Protector.exe.manifest
+D:\dev\cryptor\Cryptor\Two Step File Protector\bin\Debug\Two Step File Protector.application
+D:\dev\cryptor\Cryptor\Two Step File Protector\bin\Debug\Two Step File Protector.exe
+D:\dev\cryptor\Cryptor\Two Step File Protector\bin\Debug\Two Step File Protector.pdb
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\File Encryptor.csprojResolveAssemblyReference.cache
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Main.resources
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Form2.resources
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Properties.Resources.resources
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\File Encryptor.csproj.GenerateResource.Cache
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.TrustInfo.xml
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.exe.manifest
+D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.application
