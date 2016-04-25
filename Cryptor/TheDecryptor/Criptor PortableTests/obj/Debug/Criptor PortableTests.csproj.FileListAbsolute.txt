@@ -1,0 +1,7 @@
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\bin\Debug\Criptor PortableTests.dll
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\bin\Debug\Criptor PortableTests.pdb
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\bin\Debug\TheDecryptor.exe
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\bin\Debug\TheDecryptor.pdb
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\obj\Debug\Criptor PortableTests.csprojResolveAssemblyReference.cache
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\obj\Debug\Criptor PortableTests.dll
+D:\dev\cryptor\Cryptor\TheDecryptor\Criptor PortableTests\obj\Debug\Criptor PortableTests.pdb

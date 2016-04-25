@@ -7,3 +7,16 @@ D:\dev\cryptor\Cryptor\TheDecryptor\obj\Debug\TheDecryptor.Properties.Resources.
 D:\dev\cryptor\Cryptor\TheDecryptor\obj\Debug\Criptor Portable.csproj.GenerateResource.Cache
 D:\dev\cryptor\Cryptor\TheDecryptor\obj\Debug\TheDecryptor.exe
 D:\dev\cryptor\Cryptor\TheDecryptor\obj\Debug\TheDecryptor.pdb
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\bin\Debug\TheDecryptor.exe.config
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.exe
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.pdb
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\bin\Debug\TheDecryptor.exe
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\bin\Debug\TheDecryptor.pdb
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\Criptor Portable.csprojResolveAssemblyReference.cache
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.Form1.resources
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.Properties.Resources.resources
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\Criptor Portable.csproj.GenerateResource.Cache
+C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.PasswordBox.resources
+C:\Users\Janindu\Desktop\project updated\TheDecryptor\bin\Debug\TheDecryptor.exe.config
+C:\Users\Janindu\Desktop\project updated\TheDecryptor\obj\Debug\TheDecryptor.exe
+C:\Users\Janindu\Desktop\project updated\TheDecryptor\obj\Debug\TheDecryptor.pdb

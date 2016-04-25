@@ -11,6 +11,8 @@ namespace TheDecryptor
         UsbDrive selectedDrive;
         FileInfo[] availableFiles;
 
+        PasswordBox pb = new PasswordBox();
+        int nofilesdecrypted;
         private class UsbDrive
         {
             public String driveLabel;  //name assigned by user
@@ -28,8 +30,19 @@ namespace TheDecryptor
         public Form1()
         {
             InitializeComponent();
-            LoadDrives();
-            loadAllCriptoredFiles(selectedDrive.driveLetter);
+            try
+            {
+                LoadDrives();
+                loadAllCriptoredFiles(selectedDrive.driveLetter);
+                
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No USB drive attached.");
+                
+                
+            }
+            
         }
 
         public void LoadDrives()  //working one final one
@@ -49,7 +62,7 @@ namespace TheDecryptor
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
+                    MessageBox.Show(e.Message);
                     continue;
                 }
 
@@ -100,61 +113,109 @@ namespace TheDecryptor
 
         private void button1_Click(object sender, EventArgs e)
         {
+           
             try
             {
-                UsbDrive ud = (UsbDrive)comboBox1.SelectedItem;
-                MessageBox.Show(ud.serialNumber + txtPword.Text.Trim());
-                string secretKey = ud.serialNumber + txtPword.Text.Trim();
-                TheDecryptor.MyEncryptor enc = new TheDecryptor.MyEncryptor(secretKey);
-            
 
+                pb.ShowDialog();
 
-                foreach (FileInfo f in availableFiles)
+                //MessageBox.Show(pb.pwordok.ToString());
+
+                if (pb.pwordok)
                 {
-                    string fileToDecrypt = f.FullName;
-                    int iPosition;
-                    iPosition = fileToDecrypt.LastIndexOf(".encrypt");
-                    if ((iPosition == -1) || (iPosition != (fileToDecrypt.Length - 8)))
+
+                    UsbDrive ud = (UsbDrive)comboBox1.SelectedItem;
+                    //MessageBox.Show(ud.serialNumber + pb.password.Trim());
+                    string secretKey = ud.serialNumber + pb.password.Trim();
+                    TheDecryptor.MyEncryptor enc = new TheDecryptor.MyEncryptor(secretKey);
+
+
+
+                    foreach (FileInfo f in availableFiles)
                     {
-                        MessageBox.Show("Invalid file. Please select proper encrypted file.");
+                        string fileToDecrypt = f.FullName;
+                        int iPosition;
+                        iPosition = fileToDecrypt.LastIndexOf(".encrypt");
+                        if ((iPosition == -1) || (iPosition != (fileToDecrypt.Length - 8)))
+                        {
+                            MessageBox.Show("Corrupt file :"+f+". Moving to the nextfile.");
+                            continue;
+                        }
+
+                        //strOutputFile = the file path minus the last 8 characters (.encrypt)
+                        string decryptedFileName = f.Name.Substring(0, fileToDecrypt.Length - 11);
+                        //MessageBox.Show(decryptedFileName);
+                        //Assign strOutputFile to the position after the last "\" in the path.
+                        iPosition = decryptedFileName.LastIndexOf("jnd");
+                        if (iPosition == -1)
+                        {
+                            decryptedFileName = decryptedFileName + ".dat";
+                        }
+                        else
+                        {
+                            decryptedFileName = decryptedFileName.Replace("jnd", ".");
+                        }
+
+                        //Directory.CreateDirectory("path/to/your/dir");
+
+                        if (!System.IO.Directory.Exists(Path.GetTempPath() + "cryptor"))
+                            System.IO.Directory.CreateDirectory(System.IO.Path.GetTempPath() + "cryptor");
+
+                        string temp_path = Path.GetTempPath() + "cryptor" + "\\";
+                        //MessageBox.Show(fileToDecrypt + " | " + temp_path + decryptedFileName);
+                        //File.SetAttributes(fileToDecrypt, FileAttributes.Normal);
+                        try
+                        {
+                            enc.Decrypt(fileToDecrypt, temp_path + decryptedFileName);
+                            nofilesdecrypted++;
+                        }
+                        catch (Exception ex)
+                        {
+                            //MessageBox.Show("File : "+f+" either password pr usb didn't match. Moving to the next file.");
+                            continue ;
+                        }
+                        
+                        //MessageBox.Show(System.IO.Directory.Exists(Path.GetTempPath() + "cryptor").ToString());
                     }
 
-                    //strOutputFile = the file path minus the last 8 characters (.encrypt)
-                    string decryptedFileName = f.Name.Substring(0, fileToDecrypt.Length - 11);
-                    //MessageBox.Show(decryptedFileName);
-                    //Assign strOutputFile to the position after the last "\" in the path.
-                    iPosition = decryptedFileName.LastIndexOf("jnd");
-                    if (iPosition == -1)
+                    
+                    
+                    VirtualDriveCreator.MapDrive('X', Path.GetTempPath() + "cryptor");
+
+                    if (nofilesdecrypted != 0)
                     {
-                        decryptedFileName = decryptedFileName + ".dat";
+                        MessageBox.Show("Files with matching usb and pasword were decryped successfully.");
+                        writeLog("SUCCESSFUL", nofilesdecrypted);
                     }
+
                     else
                     {
-                        decryptedFileName = decryptedFileName.Replace("jnd", ".");
+                        MessageBox.Show("No files decrypted as didn't match the original usb and pasword.");
+                        writeLog("UNSUCCESSFUL", nofilesdecrypted);
                     }
-
-                    //Directory.CreateDirectory("path/to/your/dir");
-                    
-                    if (!System.IO.Directory.Exists(Path.GetTempPath() + "cryptor"))
-                        System.IO.Directory.CreateDirectory(System.IO.Path.GetTempPath() + "cryptor");
-                    
-                    string temp_path = Path.GetTempPath()+"cryptor"+"\\";
-                    //MessageBox.Show(fileToDecrypt + " | " + temp_path + decryptedFileName);
-                    //File.SetAttributes(fileToDecrypt, FileAttributes.Normal);
-                    enc.Decrypt(fileToDecrypt, temp_path + decryptedFileName);               
-                    //MessageBox.Show(System.IO.Directory.Exists(Path.GetTempPath() + "cryptor").ToString());
+                        
                 }
-
-                MessageBox.Show("Files decrypted successfully.");
-                VirtualDriveCreator.MapDrive('X', Path.GetTempPath()+"cryptor");
-                Console.WriteLine(VirtualDriveCreator.GetDriveMapping('X'));
-                //VirtualDriveCreator.UnmapDrive('X');
-
             }
             catch (Exception ex)
             {
+                //writeLog("FAILED",nofilesdecrypted);
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void writeLog(string status,int fileCount)
+        {
+            UsbDrive ud = (UsbDrive)comboBox1.SelectedItem;
+            string logpath = ud.driveLetter + "\\" + "criptor_log.txt";
+                 
+
+            if (!File.Exists(logpath))
+            {
+                using (File.Create(Application.StartupPath + @"\Client.config.xml")) ;
+                
+            }
+
+            File.AppendAllText(logpath, status + " decrypting attempt recorded with " + fileCount + " files at " + DateTime.Now + Environment.NewLine);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

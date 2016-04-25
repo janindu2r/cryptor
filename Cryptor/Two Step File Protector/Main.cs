@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Two_Step_File_Protector
 {
@@ -34,12 +35,16 @@ namespace Two_Step_File_Protector
         List<UsbDrive> availableUsbs = new List<UsbDrive>();
         ManagementEventWatcher watcher;
 
+        PasswordBox pb = new PasswordBox();
+
         UsbDrive currentSelectedDrive;
 
-        string fileToEncrypt;  //selected file by browse
-        string encryptedFileName; //fileNameafterEncryption
-        string fileToDecrypt;
-        string decryptedFileName;
+        string[] filesToEncrypt;
+        string[] encryptedFileNames;
+
+        //string fileToEncrypt;  //selected file by browse
+        //string encryptedFileName; //fileNameafterEncryption
+
         //System.Management.ManagementClass USBClass = new ManagementClass("Win32_DiskDrive");
 
         ManagementScope msScope = new ManagementScope("root\\CIMV2");
@@ -339,52 +344,56 @@ namespace Two_Step_File_Protector
 
         private void btnBrowseEncrypt_Click(object sender, EventArgs e)
         {
-            //Setup the open dialog.
             openFileDialog1.FileName = "";
             openFileDialog1.Title = "Choose files to encrypt";
             openFileDialog1.InitialDirectory = @"C:\";
             openFileDialog1.Filter = "";
             openFileDialog1.Multiselect = true;
 
-            // openFileDialog1.Filter = "Encrypted Files (*.encrypt) | *.encrypt";
-
-           
-            string fileExtension = "";
-
-            //Find out if the user chose a file.
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK & openFileDialog1.FileNames.Length>0)
             {
-                fileToEncrypt = openFileDialog1.FileName;
+                filesToEncrypt = openFileDialog1.FileNames;
 
-                txtFileToEncrypt.Text = fileToEncrypt;
-
-                int extenstionDotPosition;
-                /* Get the position of the last "\" in the OpenFileDialog.FileName path.
-                * -1 is when the character your searching for is not there.
-                * IndexOf searches from left to right.*/
-                extenstionDotPosition = fileToEncrypt.LastIndexOf(".");
-                if (extenstionDotPosition == -1)
+                listBox1.Items.Clear();
+                foreach (string f in filesToEncrypt)
                 {
-                    MessageBox.Show("Invalid type of file. Please select proper file.");
-                    btnFileEncrypt.Enabled = false;
-                    return;
+                    listBox1.Items.Add(f);
                 }
 
-                //strOutputFile = the file path minus the last 8 characters (.encrypt)
-                fileExtension = fileToEncrypt.Substring(extenstionDotPosition, (fileToEncrypt.Length - extenstionDotPosition));
-                
-                //Assign strOutputFile to the position after the last "\" in the path.  
-                string encryptedFileExtension = "jnd"+fileExtension.Substring(1) + ".encrypt"; //this adds real ext to the file name end then.encrypt  eg : picjndjpg.encrypt  * jnd prefix is added to identify the original extension when decrypting
-
-                string justFileName = fileToEncrypt.Substring(fileToEncrypt.LastIndexOf("\\")+1);
-                encryptedFileName = justFileName.Replace(fileExtension, encryptedFileExtension);
-
-               MessageBox.Show(fileExtension+" | "+encryptedFileExtension+ " | " + encryptedFileName);
-                //txtDestinationEncrypt.Text = strOutputEncrypt;
-                //Update buttons
                 btnFileEncrypt.Enabled = true;
             }
+        }
 
+        private string getEncryptFileName(string fname)
+        {
+            string fileExtension = "";
+
+            string fileToEncrypt = fname;
+            string encryptedFileName;
+
+            int extenstionDotPosition;
+            
+            extenstionDotPosition = fileToEncrypt.LastIndexOf(".");
+            if (extenstionDotPosition == -1)
+            {
+                MessageBox.Show("Invalid type of file. Please select proper file.");
+                btnFileEncrypt.Enabled = false;
+                return "";
+            }
+
+            //strOutputFile = the file path minus the last 8 characters (.encrypt)
+            fileExtension = fileToEncrypt.Substring(extenstionDotPosition, (fileToEncrypt.Length - extenstionDotPosition));
+
+            //Assign strOutputFile to the position after the last "\" in the path.  
+            string encryptedFileExtension = "jnd" + fileExtension.Substring(1) + ".encrypt"; //this adds real ext to the file name end then.encrypt  eg : picjndjpg.encrypt  * jnd prefix is added to identify the original extension when decrypting
+
+            string justFileName = fileToEncrypt.Substring(fileToEncrypt.LastIndexOf("\\") + 1);
+            encryptedFileName = justFileName.Replace(fileExtension, encryptedFileExtension);
+
+            //MessageBox.Show(fileExtension+" | "+encryptedFileExtension+ " | " + encryptedFileName);
+            //txtDestinationEncrypt.Text = strOutputEncrypt;
+            //Update buttons
+            return encryptedFileName;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -392,6 +401,25 @@ namespace Two_Step_File_Protector
 
         }
 
+        private void enabledisableComponents(bool v)
+        {
+            if (v)
+            {
+                foreach (Control ctrl in this.Controls)
+                {
+                    ctrl.Enabled = true;
+                } 
+            }
+            else
+            {
+                foreach (Control ctrl in this.Controls)
+                {
+                    ctrl.Enabled = false;
+                } 
+            }
+               
+        }
+       
         private void btnFileEncrypt_Click(object sender, EventArgs e)
         {
             try
@@ -401,33 +429,68 @@ namespace Two_Step_File_Protector
                     MessageBox.Show("No USB Flash drive attached. Please attach one.");
                     return;
                 }
-                else if (txtPword.Text.Trim() == "")
+                else 
                 {
-                    MessageBox.Show("Enter a password for protection");
-                    return;
+                    pb.ShowDialog();
+                    if (!pb.pwordok)
+                    {
+                        
+                        return;
+                    }
+                   
                 }
 
+                //WaitBox wb = new WaitBox();
+                //wb.Show();
+
+
+                label4.Text = "Please Wait...";
+                enabledisableComponents(false);
+                label4.Enabled = true;
+
                 UsbDrive selectedUsb = (UsbDrive)comboBox1.SelectedItem;
-                string secretKey  =   selectedUsb.serialNumber+txtPword.Text; // the usb serial number is used as the private key
-
+                string secretKey = selectedUsb.serialNumber + pb.password;
                 EncryptDecrypt.MyEncryptor enc = new EncryptDecrypt.MyEncryptor(secretKey);
-                enc.Encrypt(fileToEncrypt, selectedUsb.driveLetter+encryptedFileName);
 
-                FileInfo ff = new FileInfo(selectedUsb.driveLetter + encryptedFileName);
-                File.SetAttributes(ff.FullName, FileAttributes.System);
-                File.SetAttributes(ff.FullName, FileAttributes.Hidden);
-                //File.SetAttributes(ff.FullName, FileAttributes.ReadOnly);
-                //Copying the decrypting module to pen
+
+                foreach (string fileToEncrypt in filesToEncrypt)
+                {
+                    
+                    string encryptedFileName = getEncryptFileName(fileToEncrypt);
+
+                    if (encryptedFileName == "")
+                    {
+                        MessageBox.Show("Invalid File : " + filesToEncrypt);
+                        continue;
+                    }
+
+                    //UsbDrive selectedUsb = (UsbDrive)comboBox1.SelectedItem;
+                    //string secretKey = selectedUsb.serialNumber + pb.password; // the usb serial number is used as the private key
+
+                    //EncryptDecrypt.MyEncryptor enc = new EncryptDecrypt.MyEncryptor(secretKey);
+
+                    enc.Encrypt(fileToEncrypt, selectedUsb.driveLetter + encryptedFileName);
+
+
+                    FileInfo ff = new FileInfo(selectedUsb.driveLetter + encryptedFileName);
+                    File.SetAttributes(ff.FullName, FileAttributes.System);
+                    File.SetAttributes(ff.FullName, FileAttributes.Hidden);
+                    
+                    //MessageBox.Show("One file Encrypted Successfully.");
+                }
+
+                //Copying the decrypting module
                 FileInfo fsrc = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "TheDecryptor.exe");
                 FileInfo fdest = new FileInfo(selectedUsb.driveLetter + @"\" + "TheDecryptor.exe");
-                //MessageBox.Show(fdest.Exists.ToString());
-                if(!fdest.Exists)
+
+                if (!fdest.Exists)
                     fsrc.CopyTo(fdest.FullName);
-                //MessageBox.Show(selectedUsb.driveLetter+"\\");
-               // MessageBox.Show(fileToEncrypt + " || " + selectedUsb.driveLetter +"\\"+ encryptedFileName); return;
+
+                //wb.Close();
+                enabledisableComponents(true);
+                label4.Text = "";
+                MessageBox.Show("All the files Encrypted Successfully.");
                 
-                MessageBox.Show("File Encrypted Successfully.");
-                //enc.Encrypt(txtFileToEncrypt.Text, "D:\\Personal"+ "\\");
             }
             catch (Exception ex)
             {
