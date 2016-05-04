@@ -11,337 +11,75 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace Two_Step_File_Protector
 {
 
     public partial class Main : Form
     {
-
-        private class UsbDrive 
-        {
-            public String driveLabel;  //name assigned by user
-            public String driveLetter;
-            public String modelInfo;
-            public String serialNumber;
-
-            public override string ToString()
-            {
-                return driveLetter + " " + driveLabel;
-            }
-
-        }
-        ManagementObjectCollection USBCollection;
-        List<UsbDrive> availableUsbs = new List<UsbDrive>();
-        ManagementEventWatcher watcher;
-
-        PasswordBox pb = new PasswordBox();
-
-        UsbDrive currentSelectedDrive;
-
-        string[] filesToEncrypt;
-        string[] encryptedFileNames;
-
-        //string fileToEncrypt;  //selected file by browse
-        //string encryptedFileName; //fileNameafterEncryption
-
-        //System.Management.ManagementClass USBClass = new ManagementClass("Win32_DiskDrive");
-
-        ManagementScope msScope = new ManagementScope("root\\CIMV2");
-
-
-        public Main()
-        {
-            
-            InitializeComponent();
-           // PidVidMeth();
-           // watchEvent();
-           LoadDrives();
-           currentSelectedDrive = (UsbDrive)comboBox1.SelectedItem;
-           //GetDriveLetters();
-           //testMeth();
-
-            //}
-           // MyMethod();
-           //watchEvent();
-        }
-
         private const int WM_DEVICECHANGE = 0x219;
         private const int DBT_DEVICEARRIVAL = 0x8000;
         private const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
         private const int DBT_DEVTYP_VOLUME = 0x00000002;
+             
+        ManagementObjectCollection USBCollection;
+        List<UsbDrive> availableUsbs = new List<UsbDrive>();
 
-        //protected override void WndProc(ref Message m)
-        //{
-        //    base.WndProc(ref m);
+        PasswordBox pb = new PasswordBox();
 
-        //    switch (m.Msg)
-        //    {
-        //        case WM_DEVICECHANGE:
-        //            switch ((int)m.WParam)
-        //            {
-        //                case DBT_DEVICEARRIVAL:
-        //                    listBox3.Items.Add("New Device Arrived");
-        //                    LoadDrives();
-
-        //                    break;
-
-        //                case DBT_DEVICEREMOVECOMPLETE:
-        //                    listBox3.Items.Add("Device Removed");
-        //                    LoadDrives();
-        //                    break;
-
-        //            }
-        //            break;
-        //    }
-        //}
-
-        //public void GetDriveLetters()
-        //{
-        //    DriveInfo[] drives = DriveInfo.GetDrives();
-
-        //    foreach (DriveInfo d in drives)
-        //    {
-        //        try
-        //        {
-        //            listBox2.Items.Add(d.DriveType);
-        //            listBox2.Items.Add(d.DriveFormat);
-        //            listBox2.Items.Add(d.Name);
-        //            listBox2.Items.Add(d.RootDirectory);
-        //            listBox2.Items.Add(d.VolumeLabel);
-
-        //            listBox2.Items.Add("");
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            listBox2.Items.Add("");
-        //            continue;
-
-        //        }
-
-        //    }
-        //}
-
-        //public void advnc()
-        //{
-        //    foreach (ManagementObject drive in new ManagementObjectSearcher("select * from Win32_DiskDrive where InterfaceType='USB'").Get())
-        //    {
-        //        foreach (ManagementObject partition in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskDrive.DeviceID='" + drive["DeviceID"] + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
-        //        {
-        //            //foreach (ManagementObject partition in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskDrive.Model='" + "SanDisk Cruzer Contour USB Device" + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
-        //            //if (drive["Model"].ToString() == "SanDisk Cruzer Contour USB Device")
-        //            //{
-        //            listBox1.Items.Add("Partition=" + partition["Name"]);
-
-        //            // associate partitions with logical disks (drive letter volumes)
-        //            foreach (ManagementObject disk in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskPartition.DeviceID='" + partition["DeviceID"] + "'} WHERE AssocClass =Win32_LogicalDiskToPartition").Get())
-        //            {
-        //                listBox1.Items.Add("Disk=" + disk["Name"]);
-        //            }
-        //            //}
-        //        }
-        //    }
-        //}
-
-        //public void PidVidMeth()
-        //{
-        //    ManagementObjectSearcher mosDisks = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
-
-        //    // Loop through each object (disk) retrieved by WMI
-
-        //    foreach (ManagementObject moDisk in mosDisks.Get())
-        //    {
-
-        //        // Add the HDD to the list (use the Model field as the item's caption)
-
-        //        listBox1.Items.Add(moDisk["model"].ToString());
-
-                
-        //    }
-
-
-
-        //}
-
-        //public void testMeth()
-        //{
-        //    ManagementObjectSearcher mosDisks = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
-
-        //    // Loop through each object (disk) retrieved by WMI
-
-        //    foreach (ManagementObject moDisk in mosDisks.Get())
-        //    {
-
-        //        // Add the HDD to the list (use the Model field as the item's caption)
-
-        //        foreach(PropertyData p in moDisk.Properties)
-        //        {
-        //            listBox3.Items.Add(p.Name+" "+p.Value);
-        //        }
-
-
-        //        listBox3.Items.Add("");
-        //    }
-            
-        //}
-
-
-        public void watchEvent()
-        {
-            watcher = new ManagementEventWatcher();
-            var query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent"); //SELECT * FROM Win32_DeviceChangeEvent WHERE EventType = 2
-            watcher.EventArrived += new EventArrivedEventHandler(m_mewWatcher_EventArrived);
-            watcher.Query = query;
-            watcher.Start();
-
-            //watcher.WaitForNextEvent();
-
-            //WqlEventQuery weqQuery = new WqlEventQuery();
-            //weqQuery.EventClassName = "__InstanceOperationEvent";
-            //weqQuery.WithinInterval = new TimeSpan(0, 0, 3);
-            //weqQuery.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'";
-
-            //ManagementEventWatcher m_mewWatcher = new ManagementEventWatcher(msScope, weqQuery);
-            //m_mewWatcher.EventArrived += new EventArrivedEventHandler(m_mewWatcher_EventArrived);
-            //m_mewWatcher.Start();
-
-        }
-        public void m_mewWatcher_EventArrived(object sender, EventArrivedEventArgs e)
-        {
-
-
-            LoadDrives();
-            MessageBox.Show("event");
-            //bool bUSBEvent = false;
-
-            //foreach (PropertyData pdData in e.NewEvent.Properties)
-            //{
-            //    ManagementBaseObject mbo = (ManagementBaseObject)pdData.Value;
-            //    if (mbo != null)
-            //    {
-            //        foreach (PropertyData pdDataSub in mbo.Properties)
-            //        {
-            //            if (pdDataSub.Name == "InterfaceType" && pdDataSub.Value.ToString() == "USB")
-            //            {
-            //                bUSBEvent = true;
-            //                break;
-            //            }
-            //        }
-
-            //        if (bUSBEvent)
-            //        {
-            //            if (e.NewEvent.ClassPath.ClassName == "__InstanceCreationEvent")
-            //            {
-            //                LoadDrives();
-            //            }
-            //            else if (e.NewEvent.ClassPath.ClassName == "__InstanceDeletionEvent")
-            //            {
-            //                LoadDrives();
-            //            }
-            //        }
-            //    }
-            //}
-        }
-
+        UsbDrive currentSelectedDrive;
+        HashSet<string> filesToEncrypt = new HashSet<string>();
         
+        ManagementScope msScope = new ManagementScope("root\\CIMV2");
+
+
+        public Main()
+        {    
+           InitializeComponent();
+           LoadDrives();
+           currentSelectedDrive = (UsbDrive)comboBox1.SelectedItem;
+        }
+             
 
         public void LoadDrives()  //working one final one
         {
-            //USBClass = new ManagementClass("Win32_DiskDrive");
-            //USBCollection = USBClass.GetInstances();
-            //USBCollection = new ManagementObjectSearcher("select * from Win32_DiskDrive where InterfaceType='USB'").Get();
             
-            USBCollection = new ManagementObjectSearcher("select * from Win32_DiskDrive where InterfaceType='USB'").Get();
-            //MessageBox.Show(USBCollection.Count.ToString());
-            foreach (ManagementObject drive in USBCollection)
+            try
             {
-                
-                //listBox1.Items.Add("DeviceID : "+drive["deviceid"].ToString());
-                //listBox1.Items.Add("MediaType : " + drive["MediaType"].ToString());
-                //listBox1.Items.Add("Desc : " + drive["Description"].ToString());
-
-                foreach (ManagementObject partition in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskDrive.DeviceID='" + drive["DeviceID"] + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
+                USBCollection = new ManagementObjectSearcher("select * from Win32_DiskDrive where InterfaceType='USB'").Get();
+                availableUsbs.Clear();
+                comboBox1.Items.Clear();
+                foreach (ManagementObject drive in USBCollection)
                 {
-                    //foreach (ManagementObject partition in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskDrive.Model='" + "SanDisk Cruzer Contour USB Device" + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
-                    //if (drive["Model"].ToString() == "SanDisk Cruzer Contour USB Device")
-                    //{
-                    //listBox1.Items.Add("Partition=" + partition["Label"]);
-                    //foreach (PropertyData p in partition.Properties)
-                    //{
-                    //    listBox3.Items.Add(p.Name + " " + p.Value);
-                    //}
 
-                    // associate partitions with logical disks (drive letter volumes)
-                    foreach (ManagementObject disk in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskPartition.DeviceID='" + partition["DeviceID"] + "'} WHERE AssocClass =Win32_LogicalDiskToPartition").Get())
+                    foreach (ManagementObject partition in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskDrive.DeviceID='" + drive["DeviceID"] + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition").Get())
                     {
-                        //listBox1.Items.Add("Drive Letter : " + disk["Name"]);
-                        //listBox1.Items.Add("Drive Label : " + disk["VolumeName"]);
+                        foreach (ManagementObject disk in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_DiskPartition.DeviceID='" + partition["DeviceID"] + "'} WHERE AssocClass =Win32_LogicalDiskToPartition").Get())
+                        {
+                            UsbDrive ud = new UsbDrive();
+                            ud.driveLabel = (string)disk["VolumeName"];
+                            ud.driveLetter = (string)disk["Name"];
+                            ud.modelInfo = (string)drive["model"];
+                            ud.serialNumber = (string)drive["SerialNumber"];
 
-                        //foreach (PropertyData p in disk.Properties)
-                        //{
-                        //    listBox3.Items.Add(p.Name + " " + p.Value);
-                        //    //drive.Properties.Add("DriveLetter", disk["Name"]);
-                        //}
-                        UsbDrive ud = new UsbDrive();
-                        ud.driveLabel = (string) disk["VolumeName"];
-                        ud.driveLetter = (string)disk["Name"];
-                        ud.modelInfo = (string)drive["model"];
-                        ud.serialNumber =(string) drive["SerialNumber"];
+                            availableUsbs.Add(ud);
 
-                        availableUsbs.Add(ud);
+                            comboBox1.Items.Add(ud);
+                            comboBox1.SelectedIndex = 0;
 
-                        //comboBox1.Items.Add(drive["model"] + " " + disk["Name"] + " " + disk["VolumeName"]);
-                        comboBox1.Items.Add(ud);
-                        comboBox1.SelectedIndex = 0;
 
-                        //label2.Text = "availablr usbs : "+  availableUsbs.Count.ToString()  ;
-                        
+                        }
                     }
-                    //}
                 }
-                
-             //   listBox1.Items.Add("Signature : " + usb["Signature"].ToString());
-
-
-                //listBox1.Items.Add(usb.GetText(new TextFormat()));
-                //Console.WriteLine(usb.GetText(new TextFormat()));
-
-                //listBox1.Items.Add("Serial Num : "+usb["SerialNumber"].ToString());
-
-                //string deviceId = usb["deviceid"].ToString();
-                //Console.WriteLine(deviceId);
-                //listBox1.Items.Add(deviceId);
-
-                //int vidIndex = deviceId.IndexOf("VID_");
-                //string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"                    
-                //string vid = startingAtVid.Substring(0, 4); // vid is four characters long
-                //Console.WriteLine("VID: " + vid);
-                //listBox1.Items.Add("VID: " + vid);
-
-                //int pidIndex = deviceId.IndexOf("PID_");
-                //string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"                    
-                //string pid = startingAtPid.Substring(0, 4); // pid is four characters long
-                //Console.WriteLine("PID: " + pid);
-                //listBox1.Items.Add("PID: " + pid);
+            }
+            catch (Exception)
+            {
+                LoadDrives();
             }
             
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            //listBox1.Items.Clear();
-            //listBox2.Items.Clear();
-            //listBox3.Items.Clear();
-            //LoadDrives();
-            //GetDriveLetters();
-            //testMeth();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            new Form2().Visible = true;
-        }
-
+                
         private void btnBrowseEncrypt_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
@@ -352,8 +90,12 @@ namespace Two_Step_File_Protector
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK & openFileDialog1.FileNames.Length>0)
             {
-                filesToEncrypt = openFileDialog1.FileNames;
-
+               
+                foreach (string f in openFileDialog1.FileNames)
+                {
+                    filesToEncrypt.Add(f);
+                }
+               
                 listBox1.Items.Clear();
                 foreach (string f in filesToEncrypt)
                 {
@@ -362,7 +104,7 @@ namespace Two_Step_File_Protector
 
                 btnFileEncrypt.Enabled = true;
             }
-        }
+        }           
 
         private string getEncryptFileName(string fname)
         {
@@ -381,24 +123,14 @@ namespace Two_Step_File_Protector
                 return "";
             }
 
-            //strOutputFile = the file path minus the last 8 characters (.encrypt)
             fileExtension = fileToEncrypt.Substring(extenstionDotPosition, (fileToEncrypt.Length - extenstionDotPosition));
 
-            //Assign strOutputFile to the position after the last "\" in the path.  
-            string encryptedFileExtension = "jnd" + fileExtension.Substring(1) + ".encrypt"; //this adds real ext to the file name end then.encrypt  eg : picjndjpg.encrypt  * jnd prefix is added to identify the original extension when decrypting
+            string encryptedFileExtension = "ccp" + fileExtension.Substring(1) + ".ccp"; //this adds real ext to the file name end then.ccp  eg : picccpjpg.ccp  * jnd prefix is added to identify the original extension when decrypting
 
             string justFileName = fileToEncrypt.Substring(fileToEncrypt.LastIndexOf("\\") + 1);
             encryptedFileName = justFileName.Replace(fileExtension, encryptedFileExtension);
 
-            //MessageBox.Show(fileExtension+" | "+encryptedFileExtension+ " | " + encryptedFileName);
-            //txtDestinationEncrypt.Text = strOutputEncrypt;
-            //Update buttons
             return encryptedFileName;
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void enabledisableComponents(bool v)
@@ -429,6 +161,11 @@ namespace Two_Step_File_Protector
                     MessageBox.Show("No USB Flash drive attached. Please attach one.");
                     return;
                 }
+                if (filesToEncrypt.Count == 0)
+                {
+                    MessageBox.Show("Select one or more files.");
+                    return;
+                }
                 else 
                 {
                     pb.ShowDialog();
@@ -440,17 +177,13 @@ namespace Two_Step_File_Protector
                    
                 }
 
-                //WaitBox wb = new WaitBox();
-                //wb.Show();
-
-
                 label4.Text = "Please Wait...";
                 enabledisableComponents(false);
                 label4.Enabled = true;
 
                 UsbDrive selectedUsb = (UsbDrive)comboBox1.SelectedItem;
                 string secretKey = selectedUsb.serialNumber + pb.password;
-                EncryptDecrypt.MyEncryptor enc = new EncryptDecrypt.MyEncryptor(secretKey);
+                MyEncryptor enc = new MyEncryptor(secretKey);
 
 
                 foreach (string fileToEncrypt in filesToEncrypt)
@@ -463,20 +196,13 @@ namespace Two_Step_File_Protector
                         MessageBox.Show("Invalid File : " + filesToEncrypt);
                         continue;
                     }
-
-                    //UsbDrive selectedUsb = (UsbDrive)comboBox1.SelectedItem;
-                    //string secretKey = selectedUsb.serialNumber + pb.password; // the usb serial number is used as the private key
-
-                    //EncryptDecrypt.MyEncryptor enc = new EncryptDecrypt.MyEncryptor(secretKey);
-
+                    
                     enc.Encrypt(fileToEncrypt, selectedUsb.driveLetter + encryptedFileName);
 
 
                     FileInfo ff = new FileInfo(selectedUsb.driveLetter + encryptedFileName);
                     File.SetAttributes(ff.FullName, FileAttributes.System);
                     File.SetAttributes(ff.FullName, FileAttributes.Hidden);
-                    
-                    //MessageBox.Show("One file Encrypted Successfully.");
                 }
 
                 //Copying the decrypting module
@@ -486,7 +212,6 @@ namespace Two_Step_File_Protector
                 if (!fdest.Exists)
                     fsrc.CopyTo(fdest.FullName);
 
-                //wb.Close();
                 enabledisableComponents(true);
                 label4.Text = "";
                 MessageBox.Show("All the files Encrypted Successfully.");
@@ -501,18 +226,50 @@ namespace Two_Step_File_Protector
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentSelectedDrive = (UsbDrive)comboBox1.SelectedItem;
-            //MessageBox.Show("Selected : " + currentSelectedDrive.serialNumber);
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
-            try
+            filesToEncrypt.Clear();
+            listBox1.Items.Clear();
+            btnFileEncrypt.Enabled = false;
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            switch (m.Msg)
             {
-                watcher.Stop();
-            }
-            catch (Exception)
-            {
-                //this.Close();
+                case WM_DEVICECHANGE:
+                    switch ((int)m.WParam)
+                    {
+                        case DBT_DEVICEARRIVAL:
+
+                            int devType = Marshal.ReadInt32(m.LParam, 4);
+                            if (devType == DBT_DEVTYP_VOLUME)
+                            {
+                                label4.Text = "Please Wait.Detecting newly inserted usd drive";
+                                enabledisableComponents(false);
+                                label4.Enabled = true;
+
+                                LoadDrives();
+                                enabledisableComponents(true);
+                                label4.Text = "";
+                            }
+                            break;
+
+                        case DBT_DEVICEREMOVECOMPLETE:
+                            label4.Text = "Please Wait.Recognizing removed usb drive";
+                                enabledisableComponents(false);
+                                label4.Enabled = true;
+                            LoadDrives();
+                            LoadDrives();
+                                enabledisableComponents(true);
+                                label4.Text = "";
+                            break;
+                    }
+                    break;
             }
         }
 
