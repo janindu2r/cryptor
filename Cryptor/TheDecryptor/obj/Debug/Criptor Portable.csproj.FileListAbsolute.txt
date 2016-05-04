@@ -17,6 +17,13 @@ C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecry
 C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.Properties.Resources.resources
 C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\Criptor Portable.csproj.GenerateResource.Cache
 C:\Users\lahir\OneDrive\Janindu Project\April 22\TheDecryptor\obj\Debug\TheDecryptor.PasswordBox.resources
-C:\Users\Janindu\Desktop\project updated\TheDecryptor\bin\Debug\TheDecryptor.exe.config
-C:\Users\Janindu\Desktop\project updated\TheDecryptor\obj\Debug\TheDecryptor.exe
-C:\Users\Janindu\Desktop\project updated\TheDecryptor\obj\Debug\TheDecryptor.pdb
+D:\TheDecryptor\bin\Debug\TheDecryptor.exe.config
+D:\TheDecryptor\obj\Debug\TheDecryptor.exe
+D:\TheDecryptor\obj\Debug\TheDecryptor.pdb
+D:\TheDecryptor\bin\Debug\TheDecryptor.exe
+D:\TheDecryptor\bin\Debug\TheDecryptor.pdb
+D:\TheDecryptor\obj\Debug\Criptor Portable.csprojResolveAssemblyReference.cache
+D:\TheDecryptor\obj\Debug\TheDecryptor.PasswordBox.resources
+D:\TheDecryptor\obj\Debug\TheDecryptor.Form1.resources
+D:\TheDecryptor\obj\Debug\TheDecryptor.Properties.Resources.resources
+D:\TheDecryptor\obj\Debug\Criptor Portable.csproj.GenerateResource.Cache
