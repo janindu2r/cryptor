@@ -13,3 +13,33 @@ D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\File Encryptor.csproj.G
 D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.TrustInfo.xml
 D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.exe.manifest
 D:\dev\cryptor\Cryptor\Two Step File Protector\obj\Debug\Two Step File Protector.application
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\bin\Debug\Two Step File Protector.exe.config
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\bin\Debug\Two Step File Protector.exe.manifest
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\bin\Debug\Two Step File Protector.application
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\bin\Debug\Two Step File Protector.exe
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\bin\Debug\Two Step File Protector.pdb
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Main.resources
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two_Step_File_Protector.PasswordBox.resources
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Properties.Resources.resources
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\File Encryptor.csproj.GenerateResource.Cache
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two Step File Protector.TrustInfo.xml
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two Step File Protector.exe.manifest
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two Step File Protector.application
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two Step File Protector.exe
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\Two Step File Protector.pdb
+C:\Users\lahir\OneDrive\Janindu Project\April 22\Two Step File Protector\obj\Debug\File Encryptor.csprojResolveAssemblyReference.cache
+D:\Two Step File Protector\bin\Debug\Two Step File Protector.exe.config
+D:\Two Step File Protector\obj\Debug\Two Step File Protector.exe
+D:\Two Step File Protector\obj\Debug\Two Step File Protector.pdb
+D:\Two Step File Protector\bin\Debug\Two Step File Protector.exe.manifest
+D:\Two Step File Protector\bin\Debug\Two Step File Protector.application
+D:\Two Step File Protector\bin\Debug\Two Step File Protector.exe
+D:\Two Step File Protector\bin\Debug\Two Step File Protector.pdb
+D:\Two Step File Protector\obj\Debug\File Encryptor.csprojResolveAssemblyReference.cache
+D:\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Main.resources
+D:\Two Step File Protector\obj\Debug\Two_Step_File_Protector.PasswordBox.resources
+D:\Two Step File Protector\obj\Debug\Two_Step_File_Protector.Properties.Resources.resources
+D:\Two Step File Protector\obj\Debug\File Encryptor.csproj.GenerateResource.Cache
+D:\Two Step File Protector\obj\Debug\Two Step File Protector.TrustInfo.xml
+D:\Two Step File Protector\obj\Debug\Two Step File Protector.exe.manifest
+D:\Two Step File Protector\obj\Debug\Two Step File Protector.application
